@@ -16,3 +16,4 @@ debug/local/
 yarn.lock
 *.log
 .eslintcache
+.claude/bug-pipeline/
