@@ -54,3 +54,5 @@ and push the limits of what's possible with online maps!
  [official website]: http://leafletjs.com
  [download page]: http://leafletjs.com/download.html
 
+<!-- Dummy PR - this is a test change -->
+
