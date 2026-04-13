@@ -1,0 +1,42 @@
+# Cline Rules for Leaflet
+
+## Project Overview
+Leaflet is an open-source JavaScript library for mobile-friendly interactive maps (~40 kB gzipped JS + 3.2 kB gzipped CSS). It emphasises simplicity, performance and usability.
+
+## Code Style
+- Use tabs for indentation and spaces for alignment.
+- Use ES module syntax (import/export). Always include .js file extensions in import paths.
+- Always use curly braces for control structures (if, else, for, etc.).
+- Comments must have a space after // or /*.
+- Prefer ** over Math.pow() and Object.hasOwn() over hasOwnProperty.
+- No unused variables (caught errors in catch blocks are exempt).
+- Run `npm run lint` before committing.
+
+## Project Structure
+- src/ - Library source code (core/, dom/, geo/, geometry/, layer/, map/, control/).
+- spec/suites/ - Tests (Mocha + Chai, run via Karma).
+- dist/ - Generated build output. Do not edit.
+- build/ - Build scripts (Rollup, Leafdoc).
+- docs/ - Jekyll documentation site.
+
+## Key Patterns
+- Custom OOP: Class.extend(), Class.include(), Class.mergeOptions().
+- Events: Evented mixin with on(), off(), fire(), listens().
+- Options: Static options object merged via L.Util.setOptions().
+- DOM: Use src/dom/ utilities rather than direct DOM manipulation.
+
+## Commands
+- Install: `npm install`
+- Build: `npm run build`
+- Lint: `npm run lint`
+- Fix lint: `npm run lintfix`
+- Test: `npm test -- --single-run` (requires Chrome)
+- Watch: `npm run watch`
+- Docs: `npm run docs`
+
+## Guidelines
+- Keep changes small and focused; Leaflet values simplicity and small bundle size.
+- Ensure broad browser compatibility (baseline-js/use-baseline ESLint rules).
+- Build the project before running tests.
+- API docs come from Leafdoc comments in source files - edit those to update docs.
+- Always use topic branches, never commit directly to main.

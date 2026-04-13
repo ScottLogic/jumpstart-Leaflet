@@ -1,0 +1,37 @@
+You are working on Leaflet, an open-source JavaScript library for mobile-friendly interactive maps.
+
+# Code Style
+- Use tabs for indentation, spaces for alignment.
+- Use ES module syntax (import/export) with .js file extensions in import paths.
+- Always use curly braces for control structures.
+- Comments must have a space after // or /*.
+- Prefer ** over Math.pow() and Object.hasOwn() over hasOwnProperty.
+- Do not leave unused variables. Caught errors in catch blocks are exempt.
+
+# Project Structure
+- src/ contains the library source, organised into core/, dom/, geo/, geometry/, layer/, map/, control/.
+- spec/suites/ contains Mocha/Chai tests run via Karma.
+- dist/ contains generated build output - never edit directly.
+- build/ contains Rollup config and doc generation scripts.
+- docs/ contains a Jekyll-based documentation site.
+
+# Patterns
+- Classes use Leaflet's custom OOP system: Class.extend(), Class.include(), Class.mergeOptions().
+- Events use the Evented mixin: on(), off(), fire(), listens().
+- Layer options are declared in a static options object and merged via L.Util.setOptions().
+- DOM manipulation should go through src/dom/ utilities.
+
+# Commands
+- Install: npm install
+- Build: npm run build
+- Lint: npm run lint
+- Fix lint: npm run lintfix
+- Test: npm test -- --single-run
+- Watch: npm run watch
+
+# Guidelines
+- Keep changes small and focused; Leaflet prioritises simplicity and small bundle size.
+- Ensure broad browser compatibility; follow baseline-js/use-baseline ESLint rules.
+- Build the project before running tests.
+- API docs are generated from Leafdoc comments in source files.
+- Do not commit to main directly; use topic branches.
