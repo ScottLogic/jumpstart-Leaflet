@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {DivIcon, DefaultIcon, LatLng, LeafletMap, Marker, Point} from 'leaflet';
+import {DivIcon, DefaultIcon, LatLng, LayerGroup, LeafletMap, Marker, Point} from 'leaflet';
 import sinon from 'sinon';
 import UIEventSimulator from 'ui-event-simulator';
 import {createContainer, removeMapContainer} from '../../SpecHelper.js';
@@ -221,6 +221,35 @@ describe('Marker', () => {
 			expect(() => {
 				marker._panOnFocus();
 			}).to.not.throw();
+		});
+	});
+
+	describe('#dragging persistence across remove/re-add', () => {
+		it('keeps dragging disabled after the marker is removed and re-added via a LayerGroup (#291)', () => {
+			const marker = new Marker([0, 0], {icon: icon1});
+			const group = new LayerGroup([marker]);
+			map.addLayer(group);
+
+			marker.dragging.disable();
+			expect(marker.dragging.enabled()).to.be.false;
+
+			map.removeLayer(group);
+			map.addLayer(group);
+
+			expect(marker.dragging.enabled()).to.be.false;
+		});
+
+		it('keeps dragging enabled after the marker is removed and re-added via a LayerGroup (#291)', () => {
+			const marker = new Marker([0, 0], {icon: icon1, draggable: true});
+			const group = new LayerGroup([marker]);
+			map.addLayer(group);
+
+			expect(marker.dragging.enabled()).to.be.true;
+
+			map.removeLayer(group);
+			map.addLayer(group);
+
+			expect(marker.dragging.enabled()).to.be.true;
 		});
 	});
 
