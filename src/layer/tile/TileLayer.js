@@ -284,8 +284,4 @@ export class TileLayer extends GridLayer {
 
 		return super._tileReady(coords, err, tile);
 	}
-
-	_clampZoom(zoom) {
-		return Math.round(super._clampZoom(zoom));
-	}
 }

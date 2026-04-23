@@ -530,16 +530,17 @@ export class GridLayer extends Layer {
 
 	_clampZoom(zoom) {
 		const options = this.options;
+		const roundedZoom = Math.round(zoom);
 
-		if (undefined !== options.minNativeZoom && zoom < options.minNativeZoom) {
+		if (undefined !== options.minNativeZoom && roundedZoom < options.minNativeZoom) {
 			return options.minNativeZoom;
 		}
 
-		if (undefined !== options.maxNativeZoom && options.maxNativeZoom < zoom) {
+		if (undefined !== options.maxNativeZoom && options.maxNativeZoom < roundedZoom) {
 			return options.maxNativeZoom;
 		}
 
-		return zoom;
+		return roundedZoom;
 	}
 
 	_setView(center, zoom, noPrune, noUpdate) {
