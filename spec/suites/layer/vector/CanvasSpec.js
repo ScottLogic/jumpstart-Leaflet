@@ -140,6 +140,31 @@ describe('Canvas', () => {
 				.down().moveBy(20, 10, 200).up();
 		});
 
+		it('should not fire click on canvas path after dragging map ends over it (#261)', (done) => {
+			const clickSpy = sinon.spy();
+			const preclickSpy = sinon.spy();
+			layer.on('click', clickSpy);
+			layer.on('preclick', preclickSpy);
+
+			const hand = new Hand({
+				timing: 'fastframe',
+				onStop() {
+					// Real browsers fire a click after pointerdown+pointerup when movement is small;
+					// simulate this at the final pointerup position which is over the polygon.
+					UIEventSimulator.fireAt('click', 70, 60);
+					expect(clickSpy.called, 'click on path should NOT fire after drag ends over it').to.be.false;
+					expect(preclickSpy.called, 'preclick on path should NOT fire after drag ends over it').to.be.false;
+					done();
+				}
+			});
+			const mouse = hand.growFinger('pointer');
+
+			// Start dragging OUTSIDE the polygon (layer covers 0..100 on both axes),
+			// then end the drag INSIDE the polygon.
+			mouse.moveTo(150, 150, 0)
+				.down().moveBy(-80, -90, 200).up();
+		});
+
 		it('does fire pointerdown on layer after dragging map', (done) => { // #7775
 			const spy = sinon.spy();
 			const center = p2ll(300, 300);
