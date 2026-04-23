@@ -26,6 +26,30 @@ describe('GridLayer', () => {
 			const grid = new GridLayer().addTo(map);
 			expect(grid.redraw()).to.equal(grid);
 		});
+
+		it('requests tiles with integer zoom after redraw with fractional zoomSnap (issue #448)', () => {
+			map.remove();
+			map = new LeafletMap(container, {zoomSnap: 0.25}).setView([0, 0], 2);
+
+			const requestedCoords = [];
+			const grid = new GridLayer();
+			grid.createTile = function (coords) {
+				requestedCoords.push({x: coords.x, y: coords.y, z: coords.z});
+				return document.createElement('div');
+			};
+			grid.addTo(map);
+
+			// Force a fractional zoom on the map (non-integer but within zoomSnap grid)
+			map.setZoom(2.5, {animate: false});
+
+			requestedCoords.length = 0;
+			grid.redraw();
+
+			expect(requestedCoords.length).to.be.greaterThan(0);
+			for (const c of requestedCoords) {
+				expect(Number.isInteger(c.z), `tile z ${c.z} is not an integer`).to.equal(true);
+			}
+		});
 	});
 
 	describe('#setOpacity', () => {
